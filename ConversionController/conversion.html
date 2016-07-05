@@ -1,0 +1,100 @@
+<div class="container-fluid">
+	<!--<i class="fa fa-money fa-5x" aria-hidden="true"></i> -->
+	<div class="well">
+		<div class="row">
+			<div class="col-lg-12 display">
+				<div class="row">
+					<div class="col-sm-6" data-ng-if="base">
+						<span data-ng-model="base">{{ base }}
+							<p data-ng-if="base_display_message" data-ng-model="base_display_message" data-ng-cloak> {{ base_display_message }} </p>
+							<p data-ng-if="base_display_number" data-ng-model="base_display_number" data-ng-cloak> {{ base_display_number | number:2 }} </p>
+						</span>
+					</div>
+					<div class="col-sm-6" data-ng-if="destination">
+						<span data-ng-model="destination"> {{ destination }} 
+							<p data-ng-model="instant_destination_display" data-ng-cloak> {{ instant_destination_display }}</p>  
+						</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 results" data-ng-if="conversion">
+						<span> Conversion
+						<p data-ng-model="conversion">{{ conversion }} </p></span>
+					</div>
+				</div>
+			</div>
+		</div> 
+   <form role = "form" name="conversion_form" ng-submit="get_conversion(base, destination)">
+      <div class = "row">
+         
+         <div class = "col-sm-6">
+            <div class = "input-group">
+               
+               <div class = "input-group-btn">
+                  <button type = "button" class = "btn btn-success dropdown-toggle" 
+                     data-toggle = "dropdown">
+                     Base Country 
+                     <span class = "caret"></span>
+                  </button>
+                  
+                  <ul class = "dropdown-menu">
+                     <li data-ng-repeat="country in countries"><a href data-ng-click="set_base_country(country.code); get_base_rate(base)"><img id="curr" ng-src="http://miramollar.com/cmsc495{{country.img}}">{{ country.code }}</a></li>
+                  </ul>
+               </div><!-- /btn-group -->
+               
+               <input type ="text" 
+	               id="base-input"
+	               name="base-input"
+	               class="form-control" 
+	               data-ng-model="base"
+	               data-ng-class="{ error : conversion_form.base-input.$invalid && !conversion_form.base-input.$pristine }"
+		           data-ng-minlength="3"
+		           data-ng-maxlength="3"
+	               value="{{ base | uppercase}}"
+	               required="true"
+	               data-ng-change="get_base_rate(base)"
+		           uib-typeahead="country.code for country in countries | filter:$viewValue">
+            </div><!-- /input-group -->
+         </div><!-- /.col-lg-6 -->
+         
+         <div class = "col-sm-6">
+            <div class = "input-group">
+               <input type ="text" 
+		           id="destination-input" 
+		           name="destination-input"
+		           class = "form-control"
+		           data-ng-model="destination"
+		           data-ng-class="{ error : conversion_form.destination-input.$invalid && !conversion_form.destination-input.$pristine }"
+		           data-ng-minlength="3"
+		           data-ng-maxlength="3"
+		           value="{{ destination | uppercase }}"
+		           required="true"
+		           data-ng-change="get_destination_rate(destination)"
+		           uib-typeahead="country.code for country in countries | filter:$viewValue"/>
+		           
+               <div class ="input-group-btn">
+                  <button type = "button" class = "btn btn-success dropdown-toggle" 
+                     data-toggle = "dropdown">
+                     Destination Country 
+                     <span class = "caret"></span>
+                  </button>
+                  
+                  <ul class="dropdown-menu pull-right">
+                     <li data-ng-repeat="country in countries"><a href data-ng-click="set_destination_country(country.code); get_destination_rate(destination)"><img id="curr" ng-src="http://miramollar.com/cmsc495{{country.img}}">{{ country.code }}</a></li>
+                  </ul>
+               </div><!-- /btn-group -->
+               
+            </div><!-- /input-group -->
+         </div><!-- /.col-lg-6 -->
+         
+      </div><!-- /.row -->
+      <div class="desubmit">
+      	<button type="submit" class="btn btn-success" ng-disabled="conversion_form.$invalid">Submit</button>
+      </div>
+   </form>
+	</div>
+</div>
+</div>
+</div>
+
+<div defooter></div>
